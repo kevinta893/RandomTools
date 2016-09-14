@@ -1,0 +1,119 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <style>
+            table, th, td{
+                border: 1px solid black;
+            }
+            th{
+                padding-right: 3.5em;
+            }
+			#answer{
+				float: clear;
+			}
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <h1>Time Duration Calc</h1>
+        <div>
+            <label>Start time:<input id="start_time" type="text" size="20" autocomplete="off"></label><br>
+            <label>End time:<input id="end_time" type="text" size="20" autocomplete="off"></label><br>
+            <button id="btn_submit">Calc Duration</button>
+
+        </div>
+
+		
+		<br>
+		<br>
+		<div> 
+			<input id="show_expression" type="checkbox" checked="true">Show expression?</input>
+			<br>
+		    <textarea id="answer" rows="200" cols="100"></textarea>
+		</div>
+		
+        
+
+
+
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+        <script type="text/javascript">
+
+
+            $(document).ready(function(){
+                $("#btn_submit").click(function(){
+					var startTime = $("#start_time").val();
+					var endTime = $("#end_time").val();
+
+					//get times
+					var startMins = parseInt(startTime.split(":")[1]);
+					var endMins = parseInt(endTime.split(":")[1]);
+					var startHours = parseInt(startTime.split(":")[0]);
+					var endHours = parseInt(endTime.split(":")[0]);
+
+					
+					var resultMins = endMins - startMins;
+					var resultHours = endHours - startHours;
+					if (resultMins < 0){
+						//less than zero
+						resultMins = 60 + resultMins;
+						resultHours += -1;
+					}
+					
+					//display result 
+					if ($("#show_expression").is(':checked') == true){
+						$("#answer").text(
+							endTime + " - " + 
+							startTime + " = " +
+							resultHours + ":" + padDigits(resultMins, 2) + "\n" +
+							$("#answer").text() 
+						);
+					} else {
+						//show only the result
+						$("#answer").text(
+							resultHours + ":" + padDigits(resultMins, 2) + "\n" +
+							$("#answer").text() 
+						);
+					}
+                    //now clear the form fields and refocus to the first textbox
+                    $("#start_time").val("");
+                    $("#end_time").val("");
+
+                    $("#start_time").focus();
+                });
+
+                //other setup
+                $("#start_time").focus();				//focus on load
+
+
+				
+            });
+			
+			function padDigits(number, digits) {
+				return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+			}
+        </script>
+    </body>
+</html>
